@@ -1,0 +1,19 @@
+#Sun Nov 26 09:08:48 CET 2023
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/Application.java=1700477021027
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/commands/PriviligeCommand.java=1700984878539
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/config/PromptConfiguration.java=1700557429876
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/dto/RoomDto.java=1700559223182
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/dto/UserDto.java=1700984878529
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/model/Roles.java=1700518695884
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/repository/RoomRepository.java=1700844037784
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/repository/UserRepository.java=1700828752604
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/service/AuthenticationService.java=1700830693838
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/service/MovieService.java=1700748565962
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/service/RoomService.java=1700845128389
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/service/ScreeningService.java=1700755010703
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/service/impl/AuthenticationServiceImpl.java=1700897344219
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/java/com/epam/training/ticketservice/service/impl/ScreeningServiceImpl.java=1700983811182
+/Users/mocsarihenrik/Downloads/epam-deik-java-dev-23-24-wednesday-group/final/ticket-service/src/main/resources/application.properties=1700518483037
+configuration*?=C313B65CBAA7B042ABCDE7DEBA3529C2415B1DD6
+module-resource*?\:checkstyle-suppressions.xml=3DFC4AAD35F8CBF0AB2C352097CFEDAFC85CDD8E
+module-resource*?\:checkstyle-xpath-suppressions.xml=BF5906EDE31085AC128B5FB249BD05B2985AF19D

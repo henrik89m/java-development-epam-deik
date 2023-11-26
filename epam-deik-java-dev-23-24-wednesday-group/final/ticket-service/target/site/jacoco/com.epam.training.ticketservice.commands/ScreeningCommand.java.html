@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ScreeningCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ticket-service</a> &gt; <a href="index.source.html" class="el_package">com.epam.training.ticketservice.commands</a> &gt; <span class="el_source">ScreeningCommand.java</span></div><h1>ScreeningCommand.java</h1><pre class="source lang-java linenums">package com.epam.training.ticketservice.commands;
+
+import com.epam.training.ticketservice.dto.ScreeningDto;
+import com.epam.training.ticketservice.service.ScreeningService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+@ShellComponent
+<span class="nc" id="L15">@RequiredArgsConstructor</span>
+public class ScreeningCommand extends PriviligeCommand{
+
+    private final ScreeningService screeningService;
+
+    @ShellMethodAvailability(&quot;isAdmin&quot;)
+    @ShellMethod(key = &quot;create screening&quot;, value = &quot;Usage: &lt;movie&gt; &lt;room&gt; &lt;start&gt;&quot;)
+    public String createScreening(String movie, String roomName, String startTimeStr) {
+        try {
+<span class="nc" id="L24">            LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm&quot;));</span>
+<span class="nc" id="L25">            var res = screeningService.createScreening(movie, roomName, startTime);</span>
+<span class="nc" id="L26">            return &quot;Screening created successfully&quot;;</span>
+<span class="nc" id="L27">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L28">            throw new IllegalArgumentException(e);</span>
+        }
+    }
+    @ShellMethod(key = &quot;delete screening&quot;, value = &quot;Usage: &lt;movie&gt; &lt;roomName&gt; &lt;startTime&gt;&quot;)
+    @ShellMethodAvailability(&quot;isAdmin&quot;)
+    public String deleteScreening(String movie, String roomName, String startTimeStr){
+        try{
+<span class="nc" id="L35">            LocalDateTime startTime = LocalDateTime.parse(startTimeStr, DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm&quot;));</span>
+<span class="nc" id="L36">            var res = screeningService.deleteScreening(movie, roomName, startTime);</span>
+<span class="nc" id="L37">            return &quot;Screening deleted successfully&quot;;</span>
+<span class="nc" id="L38">        }catch (IllegalArgumentException e){</span>
+<span class="nc" id="L39">            throw new IllegalArgumentException(e);</span>
+        }
+
+    }
+
+    @ShellMethod(key = &quot;list screenings&quot;, value = &quot;List of all screenings&quot;)
+    public void listScreening() {
+        try {
+<span class="nc" id="L47">            List&lt;ScreeningDto&gt; screenings = screeningService.listScreening();</span>
+<span class="nc bnc" id="L48" title="All 2 branches missed.">            if (screenings.isEmpty()){</span>
+<span class="nc" id="L49">                System.out.println(&quot;There are no screenings at the moment&quot;);</span>
+            }else{
+<span class="nc bnc" id="L51" title="All 2 branches missed.">                for (ScreeningDto screening : screenings) {</span>
+<span class="nc" id="L52">                    System.out.println(&quot;Movie: &quot; + screening.getMovie() +</span>
+<span class="nc" id="L53">                            &quot;, Room Name: &quot; + screening.getRoomName() +</span>
+<span class="nc" id="L54">                            &quot;, Start Time: &quot; + screening.getStartTime());</span>
+<span class="nc" id="L55">                }</span>
+            }
+<span class="nc" id="L57">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L58">            throw new IllegalArgumentException(e);</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

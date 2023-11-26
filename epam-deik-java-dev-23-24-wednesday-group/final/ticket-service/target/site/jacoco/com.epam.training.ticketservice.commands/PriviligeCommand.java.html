@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PriviligeCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ticket-service</a> &gt; <a href="index.source.html" class="el_package">com.epam.training.ticketservice.commands</a> &gt; <span class="el_source">PriviligeCommand.java</span></div><h1>PriviligeCommand.java</h1><pre class="source lang-java linenums">package com.epam.training.ticketservice.commands;
+
+import com.epam.training.ticketservice.model.Roles;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.shell.Availability;
+
+import java.util.Collection;
+
+<span class="nc" id="L12">public class PriviligeCommand {</span>
+
+    public Availability isAdmin() {
+<span class="nc" id="L15">        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();</span>
+
+<span class="nc bnc" id="L17" title="All 4 branches missed.">        if (authentication == null || !authentication.isAuthenticated()) {</span>
+<span class="nc" id="L18">            return Availability.unavailable(&quot;You are not signed in&quot;);</span>
+        }
+<span class="nc" id="L20">        Collection&lt;? extends GrantedAuthority&gt; authorities = authentication.getAuthorities();</span>
+<span class="nc bnc" id="L21" title="All 2 branches missed.">        if (authorities.stream().anyMatch(authority -&gt;</span>
+<span class="nc" id="L22">                authority.getAuthority().equals(Roles.ADMIN.name()))) {</span>
+<span class="nc" id="L23">            return Availability.available();</span>
+        } else {
+<span class="nc" id="L25">            return Availability.unavailable(&quot;Permission denied&quot;);</span>
+        }
+    }
+
+    protected Availability isSignIn() {
+<span class="nc" id="L30">        var authentication = getAuthentication();</span>
+<span class="nc bnc" id="L31" title="All 2 branches missed.">        if (authentication instanceof UsernamePasswordAuthenticationToken) {</span>
+<span class="nc" id="L32">            return Availability.available();</span>
+        }
+<span class="nc" id="L34">        return Availability.unavailable(&quot;Not signed in&quot;);</span>
+    }
+
+    protected Availability isSignedOut() {
+<span class="nc" id="L38">        var authentication = getAuthentication();</span>
+<span class="nc bnc" id="L39" title="All 2 branches missed.">        if (authentication instanceof UsernamePasswordAuthenticationToken) {</span>
+<span class="nc" id="L40">            return Availability.unavailable(&quot;Already signed in&quot;);</span>
+        }
+<span class="nc" id="L42">        return Availability.available();</span>
+    }
+
+    private Authentication getAuthentication() {
+<span class="nc" id="L46">        return SecurityContextHolder.getContext().getAuthentication();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

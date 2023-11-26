@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoomServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ticket-service</a> &gt; <a href="index.source.html" class="el_package">com.epam.training.ticketservice.service.impl</a> &gt; <span class="el_source">RoomServiceImpl.java</span></div><h1>RoomServiceImpl.java</h1><pre class="source lang-java linenums">package com.epam.training.ticketservice.service.impl;
+
+import com.epam.training.ticketservice.dto.RoomDto;
+import com.epam.training.ticketservice.model.Room;
+import com.epam.training.ticketservice.repository.RoomRepository;
+import com.epam.training.ticketservice.service.RoomService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class RoomServiceImpl implements RoomService {
+
+    private final RoomRepository roomRepository;
+
+<span class="fc" id="L19">    public RoomServiceImpl(RoomRepository roomRepository) {</span>
+<span class="fc" id="L20">        this.roomRepository = roomRepository;</span>
+<span class="fc" id="L21">    }</span>
+
+    @Override
+    public Optional&lt;RoomDto&gt; createRoom(String roomName, int rows, int cols) {
+<span class="fc bfc" id="L25" title="All 2 branches covered.">        if (roomRepository.existsByName(roomName)){</span>
+<span class="fc" id="L26">           throw new IllegalArgumentException(&quot;Room name already exists&quot;);</span>
+        }
+
+<span class="fc" id="L29">        Room makeRoom = new Room();</span>
+<span class="fc" id="L30">        makeRoom.setName(roomName);</span>
+<span class="fc" id="L31">        makeRoom.setRows(rows);</span>
+<span class="fc" id="L32">        makeRoom.setCols(cols);</span>
+
+<span class="fc" id="L34">       Room savedRoom = roomRepository.save(makeRoom);</span>
+<span class="fc" id="L35">       RoomDto roomDto = new RoomDto(savedRoom.getName(), savedRoom.getRows(), savedRoom.getCols());</span>
+
+<span class="fc" id="L37">       return Optional.of(roomDto);</span>
+    }
+
+    @Override
+    public Optional&lt;RoomDto&gt; updateRoom(String roomName, int rows, int cols) {
+<span class="fc" id="L42">        Room room = roomRepository.findByName(roomName)</span>
+<span class="fc" id="L43">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Room not found to be updated&quot;));</span>
+
+<span class="fc" id="L45">        room.setRows(rows);</span>
+<span class="fc" id="L46">        room.setCols(cols);</span>
+
+<span class="fc" id="L48">        Room updatedRoom = roomRepository.save(room);</span>
+<span class="fc" id="L49">        RoomDto roomDto = new RoomDto(room.getName(), room.getRows(), room.getCols());</span>
+
+<span class="fc" id="L51">        return Optional.of(roomDto);</span>
+    }
+
+    @Override
+    public Optional&lt;RoomDto&gt; deleteRoom(String roomName) {
+<span class="fc" id="L56">        Optional&lt;Room&gt; optionalRoom = roomRepository.findByName(roomName);</span>
+
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        if (optionalRoom.isPresent()) {</span>
+<span class="fc" id="L59">            Room room = optionalRoom.get();</span>
+<span class="fc" id="L60">            roomRepository.delete(room);</span>
+
+<span class="fc" id="L62">            RoomDto deletedRoomDto = new RoomDto(room.getName(),room.getRows(), room.getCols());</span>
+<span class="fc" id="L63">            return Optional.of(deletedRoomDto);</span>
+        } else {
+<span class="fc" id="L65">            throw new IllegalArgumentException(&quot;Room does not exist&quot;);</span>
+        }
+    }
+
+
+    @Override
+    public List&lt;RoomDto&gt; listRooms() {
+<span class="fc" id="L72">        return roomRepository.findAll().stream()</span>
+<span class="fc" id="L73">                .map(room -&gt; new RoomDto(room.getName(), room.getRows(), room.getCols()))</span>
+<span class="fc" id="L74">                .collect(Collectors.toList());</span>
+    }
+
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

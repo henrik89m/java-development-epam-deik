@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RoomCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ticket-service</a> &gt; <a href="index.source.html" class="el_package">com.epam.training.ticketservice.commands</a> &gt; <span class="el_source">RoomCommand.java</span></div><h1>RoomCommand.java</h1><pre class="source lang-java linenums">package com.epam.training.ticketservice.commands;
+
+import com.epam.training.ticketservice.dto.RoomDto;
+import com.epam.training.ticketservice.service.RoomService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
+
+import java.util.List;
+
+@ShellComponent
+<span class="nc" id="L13">@RequiredArgsConstructor</span>
+public class RoomCommand extends PriviligeCommand {
+
+    private final RoomService roomService;
+
+    @ShellMethod(key = &quot;create room&quot;, value = &quot;Usage: &lt;room&gt; &lt;number of rows&gt; &lt;number of cols&gt;&quot;)
+    @ShellMethodAvailability(&quot;isAdmin&quot;)
+    public String createRoom(String roomName, int rows, int cols) {
+        try {
+<span class="nc" id="L22">            var res = roomService.createRoom(roomName, rows, cols);</span>
+<span class="nc" id="L23">            return &quot;Room created successfully&quot;;</span>
+
+<span class="nc" id="L25">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L26">            return e.getMessage();</span>
+        }
+    }
+
+    @ShellMethod(key = &quot;update room&quot;, value = &quot;Usage: &lt;room&gt; &lt;number of rows&gt; &lt;number of cols&gt;&quot;)
+    @ShellMethodAvailability(&quot;isAdmin&quot;)
+    public String updateRoom(String roomName, int rows, int cols) {
+        try {
+<span class="nc" id="L34">            var res = roomService.updateRoom(roomName, rows, cols);</span>
+<span class="nc" id="L35">            return &quot;Room updated successfully&quot;;</span>
+<span class="nc" id="L36">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L37">            return e.getMessage();</span>
+        }
+    }
+
+    @ShellMethod(key = &quot;delete room&quot;, value = &quot;Usage: &lt;room&gt;&quot;)
+    @ShellMethodAvailability(&quot;isAdmin&quot;)
+    public String deleteRoom(String roomName) {
+        try {
+<span class="nc" id="L45">            var res = roomService.deleteRoom(roomName);</span>
+<span class="nc" id="L46">            return &quot;Room deleted successfully&quot;;</span>
+<span class="nc" id="L47">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L48">            return e.getMessage();</span>
+        }
+    }
+    @ShellMethod(key = &quot;list rooms&quot;, value = &quot;List of all rooms&quot;)
+    public void listRooms() {
+        try {
+<span class="nc" id="L54">            List&lt;RoomDto&gt; rooms = roomService.listRooms();</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            if (rooms.isEmpty()){</span>
+<span class="nc" id="L56">                System.out.println(&quot;There are no rooms at the moment&quot;);</span>
+            }else{
+<span class="nc bnc" id="L58" title="All 2 branches missed.">                for (RoomDto room : rooms) {</span>
+<span class="nc" id="L59">                    System.out.println(&quot;Room Name: &quot; + room.getName() +</span>
+<span class="nc" id="L60">                            &quot;, Rows: &quot; + room.getRows() +</span>
+<span class="nc" id="L61">                            &quot;, Columns: &quot; + room.getCols());</span>
+<span class="nc" id="L62">                }</span>
+            }
+<span class="nc" id="L64">        } catch (IllegalArgumentException e) {</span>
+<span class="nc" id="L65">            throw new IllegalArgumentException(e);</span>
+<span class="nc" id="L66">        }</span>
+<span class="nc" id="L67">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

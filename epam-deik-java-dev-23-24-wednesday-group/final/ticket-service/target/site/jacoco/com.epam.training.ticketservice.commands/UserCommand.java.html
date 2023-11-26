@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserCommand.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ticket-service</a> &gt; <a href="index.source.html" class="el_package">com.epam.training.ticketservice.commands</a> &gt; <span class="el_source">UserCommand.java</span></div><h1>UserCommand.java</h1><pre class="source lang-java linenums">package com.epam.training.ticketservice.commands;
+
+import com.epam.training.ticketservice.model.User;
+import com.epam.training.ticketservice.service.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.shell.standard.ShellComponent;
+import org.springframework.shell.standard.ShellMethod;
+import org.springframework.shell.standard.ShellMethodAvailability;
+import lombok.RequiredArgsConstructor;
+
+@ShellComponent
+<span class="nc" id="L16">@RequiredArgsConstructor</span>
+public class UserCommand extends PriviligeCommand{
+    private final UserService userService;
+
+    @ShellMethod(key = &quot;describe account&quot;, value = &quot;description of account&quot;)
+    public String describe() {
+<span class="nc" id="L22">        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();</span>
+
+<span class="nc bnc" id="L24" title="All 6 branches missed.">        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal() == null) {</span>
+<span class="nc" id="L25">            return &quot;No authenticated user found.&quot;;</span>
+        }
+
+<span class="nc" id="L28">        Object principal = authentication.getPrincipal();</span>
+
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        if (principal instanceof User) {</span>
+<span class="nc" id="L31">            User currentUser = (User) principal;</span>
+<span class="nc" id="L32">            return &quot;Username: &quot; + currentUser.getUsername() + &quot;, Role: &quot; + currentUser.getRole();</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        } else if (principal instanceof UserDetails) {</span>
+<span class="nc" id="L34">            UserDetails userDetails = (UserDetails) principal;</span>
+<span class="nc" id="L35">            StringBuilder roles = new StringBuilder();</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            for (GrantedAuthority authority : userDetails.getAuthorities()) {</span>
+<span class="nc" id="L37">                roles.append(authority.getAuthority()).append(&quot; &quot;);</span>
+<span class="nc" id="L38">            }</span>
+<span class="nc" id="L39">            return &quot;Username: &quot; + userDetails.getUsername() + &quot;, Roles: &quot; + roles.toString().trim();</span>
+        } else {
+<span class="nc" id="L41">            return &quot;No authenticated user found.&quot;;</span>
+        }
+    }
+
+    @ShellMethodAvailability(&quot;isSignOut&quot;)
+    @ShellMethod(key = &quot;create user&quot;, value = &quot;Usage: &lt;username&gt; &lt;password&gt;&quot;)
+    public String createUser(String username, String password){
+        try {
+<span class="nc" id="L49">            var res = userService.createUser(username,password);</span>
+<span class="nc" id="L50">            return &quot;User created successfully&quot;;</span>
+<span class="nc" id="L51">        }catch (Exception e){</span>
+<span class="nc" id="L52">            return e.getMessage();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

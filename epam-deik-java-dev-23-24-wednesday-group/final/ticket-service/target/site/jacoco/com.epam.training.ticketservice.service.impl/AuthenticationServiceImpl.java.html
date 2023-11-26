@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthenticationServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ticket-service</a> &gt; <a href="index.source.html" class="el_package">com.epam.training.ticketservice.service.impl</a> &gt; <span class="el_source">AuthenticationServiceImpl.java</span></div><h1>AuthenticationServiceImpl.java</h1><pre class="source lang-java linenums">package com.epam.training.ticketservice.service.impl;
+
+import com.epam.training.ticketservice.dto.UserDto;
+import com.epam.training.ticketservice.model.Roles;
+import com.epam.training.ticketservice.model.User;
+import com.epam.training.ticketservice.repository.UserRepository;
+import com.epam.training.ticketservice.service.AuthenticationService;
+import com.epam.training.ticketservice.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.lang.Nullable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+@Service
+<span class="nc" id="L21">@RequiredArgsConstructor</span>
+public class AuthenticationServiceImpl implements AuthenticationService {
+
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository repository;
+    private final UserService userService;
+
+    @Override
+    public void signup(String username, String password) {
+        try {
+<span class="nc" id="L31">            userService.createUser(username, password);</span>
+<span class="nc" id="L32">        } catch (AuthenticationException e) {</span>
+<span class="nc" id="L33">            throw new AuthenticationException(&quot;Sign up failed&quot;) {</span>
+            };
+<span class="nc" id="L35">        }</span>
+<span class="nc" id="L36">    }</span>
+
+    @Override
+    public Optional&lt;UserDto&gt; signIn(String username, String password, boolean privileged) {
+        try {
+<span class="nc" id="L41">            Authentication authentication = authenticationManager.authenticate(</span>
+                    new UsernamePasswordAuthenticationToken(username, password)
+            );
+<span class="nc" id="L44">            SecurityContextHolder.getContext().setAuthentication(authentication);</span>
+<span class="nc" id="L45">            UserDto userDto = new UserDto(username, Roles.USER);</span>
+<span class="nc" id="L46">            return Optional.of(userDto);</span>
+<span class="nc" id="L47">        } catch (AuthenticationException e) {</span>
+<span class="nc" id="L48">            e.printStackTrace();</span>
+<span class="nc" id="L49">            throw new AuthenticationException(&quot;Login failed due to some error: &quot; + e.getMessage()) {</span>
+            };
+        }
+    }
+
+    @Override
+    public void logout() {
+<span class="nc" id="L56">        SecurityContextHolder.clearContext();</span>
+
+<span class="nc" id="L58">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

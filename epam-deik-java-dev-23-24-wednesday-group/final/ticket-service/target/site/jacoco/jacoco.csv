@@ -1,0 +1,29 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+ticket-service,com.epam.training.ticketservice.service.impl,UserServiceImpl,60,0,2,0,12,0,3,0,2,0
+ticket-service,com.epam.training.ticketservice.service.impl,AuthenticationServiceImpl,61,0,0,0,15,0,4,0,4,0
+ticket-service,com.epam.training.ticketservice.service.impl,RoomServiceImpl,0,140,0,4,0,29,0,9,0,7
+ticket-service,com.epam.training.ticketservice.service.impl,AuthenticationServiceImpl.new AuthenticationException() {...},7,0,0,0,1,0,1,0,1,0
+ticket-service,com.epam.training.ticketservice.service.impl,MovieServiceImpl,0,141,0,4,0,29,0,9,0,7
+ticket-service,com.epam.training.ticketservice.service.impl,AuthenticationServiceImpl.new AuthenticationException() {...},7,0,0,0,1,0,1,0,1,0
+ticket-service,com.epam.training.ticketservice.service.impl,ScreeningServiceImpl,33,143,0,4,8,34,2,8,2,6
+ticket-service,com.epam.training.ticketservice.initialiser,AdminInitialiser,25,0,2,0,4,0,3,0,2,0
+ticket-service,com.epam.training.ticketservice.model,Room,137,36,26,0,1,10,19,8,6,8
+ticket-service,com.epam.training.ticketservice.model,User,208,0,38,0,11,0,33,0,14,0
+ticket-service,com.epam.training.ticketservice.model,Movie,154,36,32,0,1,10,22,8,6,8
+ticket-service,com.epam.training.ticketservice.model,Roles,15,0,0,0,3,0,1,0,1,0
+ticket-service,com.epam.training.ticketservice.model,Screening,210,24,42,0,6,5,28,7,7,7
+ticket-service,com.epam.training.ticketservice.dto,ScreeningDto,15,21,0,0,1,8,1,4,1,4
+ticket-service,com.epam.training.ticketservice.dto,UserDto.UserDtoBuilder,28,0,0,0,1,0,5,0,5,0
+ticket-service,com.epam.training.ticketservice.dto,RoomDto,13,21,0,0,1,8,1,4,1,4
+ticket-service,com.epam.training.ticketservice.dto,MovieDto,66,21,12,0,7,8,9,4,3,4
+ticket-service,com.epam.training.ticketservice.dto,UserDto,111,0,22,0,5,0,18,0,7,0
+ticket-service,com.epam.training.ticketservice.config,SecurityConfiguration,23,0,0,0,6,0,3,0,3,0
+ticket-service,com.epam.training.ticketservice.config,PromptConfiguration,8,0,0,0,2,0,2,0,2,0
+ticket-service,com.epam.training.ticketservice,Application,8,0,0,0,3,0,2,0,2,0
+ticket-service,com.epam.training.ticketservice.commands,ScreeningCommand,86,0,4,0,23,0,6,0,4,0
+ticket-service,com.epam.training.ticketservice.commands,PriviligeCommand,58,0,10,0,18,0,11,0,6,0
+ticket-service,com.epam.training.ticketservice.commands,RoomCommand,82,0,4,0,25,0,7,0,5,0
+ticket-service,com.epam.training.ticketservice.commands,MovieCommand,81,0,4,0,25,0,7,0,5,0
+ticket-service,com.epam.training.ticketservice.commands,AuthenticationCommand,100,0,10,0,25,0,12,0,7,0
+ticket-service,com.epam.training.ticketservice.commands,UserCommand,85,0,12,0,20,0,9,0,3,0
+ticket-service,com.epam.training.ticketservice.component,SecurityDetails,66,0,6,0,14,0,6,0,3,0

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ScreeningServiceImpl.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ticket-service</a> &gt; <a href="index.source.html" class="el_package">com.epam.training.ticketservice.service.impl</a> &gt; <span class="el_source">ScreeningServiceImpl.java</span></div><h1>ScreeningServiceImpl.java</h1><pre class="source lang-java linenums">package com.epam.training.ticketservice.service.impl;
+
+import com.epam.training.ticketservice.dto.ScreeningDto;
+import com.epam.training.ticketservice.dto.MovieDto;
+import com.epam.training.ticketservice.model.Movie;
+import com.epam.training.ticketservice.model.Room;
+import com.epam.training.ticketservice.model.Screening;
+import com.epam.training.ticketservice.repository.MovieRepository;
+import com.epam.training.ticketservice.repository.RoomRepository;
+import com.epam.training.ticketservice.repository.ScreeningRepository;
+import com.epam.training.ticketservice.service.ScreeningService;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class ScreeningServiceImpl implements ScreeningService {
+    private final ScreeningRepository screeningRepository;
+    private final MovieRepository movieRepository;
+    private final RoomRepository roomRepository;
+
+    public ScreeningServiceImpl(ScreeningRepository screeningRepository, MovieRepository movieRepository,
+<span class="fc" id="L27">                                RoomRepository roomRepository) {</span>
+<span class="fc" id="L28">        this.screeningRepository = screeningRepository;</span>
+<span class="fc" id="L29">        this.movieRepository = movieRepository;</span>
+<span class="fc" id="L30">        this.roomRepository = roomRepository;</span>
+<span class="fc" id="L31">    }</span>
+
+    @Override
+    public Optional&lt;ScreeningDto&gt; createScreening(String movieTitle, String roomName, LocalDateTime start) {
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        if (screeningRepository.existsByMovieTitleAndRoomNameAndStartTime(movieTitle, roomName, start)) {</span>
+<span class="fc" id="L36">            throw new IllegalArgumentException(&quot;Screening already exists&quot;);</span>
+        }
+
+<span class="fc" id="L39">        Movie movie = movieRepository.findByTitle(movieTitle)</span>
+<span class="fc" id="L40">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Movie not found&quot;));</span>
+
+<span class="fc" id="L42">        Room room = roomRepository.findByName(roomName)</span>
+<span class="fc" id="L43">                .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Room not found&quot;));</span>
+
+<span class="fc" id="L45">        Screening screening = new Screening();</span>
+<span class="fc" id="L46">        screening.setMovie(movie);</span>
+<span class="fc" id="L47">        screening.setRoom(room);</span>
+<span class="fc" id="L48">        screening.setStartTime(start);</span>
+
+<span class="fc" id="L50">        Screening savedScreening = screeningRepository.save(screening);</span>
+<span class="fc" id="L51">        ScreeningDto screeningDto = new ScreeningDto(</span>
+<span class="fc" id="L52">                new MovieDto(movie.getTitle(), movie.getGenre(), movie.getLength()),</span>
+<span class="fc" id="L53">                room.getName(),</span>
+<span class="fc" id="L54">                formatter.format(start));</span>
+
+<span class="fc" id="L56">        return Optional.of(screeningDto);</span>
+    }
+
+    @Override
+    public Optional&lt;ScreeningDto&gt; deleteScreening(String movieTitle, String roomName, LocalDateTime start) {
+<span class="fc" id="L61">        Optional&lt;Screening&gt; screeningOptional = screeningRepository</span>
+<span class="fc" id="L62">                .findByMovieTitleAndRoomNameAndStartTime(movieTitle, roomName, start);</span>
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (screeningOptional.isEmpty()) {</span>
+<span class="fc" id="L65">            throw new IllegalArgumentException(&quot;No screening found&quot;);</span>
+        }
+
+<span class="fc" id="L68">        Screening screening = screeningOptional.get();</span>
+<span class="fc" id="L69">        screeningRepository.delete(screening);</span>
+
+<span class="fc" id="L71">        ScreeningDto deletedScreeningDto = new ScreeningDto(</span>
+<span class="fc" id="L72">                new MovieDto(screening.getMovie().getTitle(), screening.getMovie().getGenre(),</span>
+<span class="fc" id="L73">                        screening.getMovie().getLength()),</span>
+<span class="fc" id="L74">                screening.getRoom().getName(),</span>
+<span class="fc" id="L75">                formatter.format(screening.getStartTime())</span>
+        );
+<span class="fc" id="L77">        return Optional.of(deletedScreeningDto);</span>
+    }
+
+    @Override
+    public List&lt;ScreeningDto&gt; listScreening() {
+<span class="nc" id="L82">        return screeningRepository.findAll().stream()</span>
+<span class="nc" id="L83">                .map(screening -&gt; new ScreeningDto(</span>
+                        new MovieDto(
+<span class="nc" id="L85">                                screening.getMovie().getTitle(),</span>
+<span class="nc" id="L86">                                screening.getMovie().getGenre(),</span>
+<span class="nc" id="L87">                                screening.getMovie().getLength()</span>
+                        ),
+<span class="nc" id="L89">                        screening.getRoom().getName(),</span>
+<span class="nc" id="L90">                        formatter.format(screening.getStartTime())))</span>
+<span class="nc" id="L91">                .collect(Collectors.toList());</span>
+    }
+
+<span class="fc" id="L94">    public static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd HH:mm&quot;);</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
